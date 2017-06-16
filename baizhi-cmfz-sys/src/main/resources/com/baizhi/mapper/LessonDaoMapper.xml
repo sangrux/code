@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.LessonDao">
+    <!--添加功课-->
+    <insert id="insert" parameterType="Lesson">
+        INSERT  INTO t_lesson VALUES (#{id},#{type},#{name},#{user.id})
+    </insert>
+    <!--修改功课-->
+    <update id="update" parameterType="Lesson">
+        UPDATE t_lesson SET type=#{type},name=#{name},userId=#{user.id} WHERE id=#{id}
+    </update>
+    <!--删除功课-->
+    <delete id="delete" parameterType="String">
+        DELETE FROM t_lesson WHERE id=#{id}
+    </delete>
+    <sql id="sel">
+        SELECT id,type,name,userId FROM t_lesson
+    </sql>
+    <resultMap id="counter" type="Lesson">
+        <id column="id" property="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <association property="user" column="userId" javaType="User" select="com.baizhi.dao.UserDao.selectById"/>
+        <collection property="counters" javaType="List" ofType="Counter" column="id" select="com.baizhi.dao.CounterDao.selectByLessonId"/>
+    </resultMap>
+    <!--查询功课-->
+    <select id="selectById" parameterType="String" resultMap="counter">
+        <include refid="sel"/> WHERE id=#{id}
+    </select>
+    <!--查询所有功课-->
+    <select id="selectAll" resultType="Lesson">
+        <include refid="sel"/>
+    </select>
+    <!--查询某一类型功课-->
+    <select id="selectByType" parameterType="String" resultType="Lesson">
+        <include refid="sel"/> WHERE type='必修'
+    </select>
+
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.GuruDao">
+
+	<!--查询一个-->
+	<select id="selectById" parameterType="String" resultType="guru">
+		select id,name,photoPath from t_guru where id=#{id}
+	</select>
+
+	<!--查询所有-->
+	<select id="selectAll" resultType="guru">
+		select id,name,photoPath from t_guru
+	</select>
+
+	<!--添加-->
+	<insert id="insert" parameterType="guru">
+		insert into t_guru values(#{id},#{name},#{photoPath})
+	</insert>
+
+	<!--删除-->
+	<delete id="delete" parameterType="String">
+		delete from t_guru where id=#{id}
+	</delete>
+
+	<!--修改-->
+	<update id="update" parameterType="guru">
+		update t_guru set name=#{name},photoPath=#{photoPath} where id=#{id}
+	</update>
+
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.VoiceDao">
+	<!--增-->
+	<insert id="insert" parameterType="com.baizhi.entity.Voice">
+		insert into t_voice values(#{id},#{title},#{downloadUrl},#{size},#{duration},#{introduce.id})
+	</insert>
+	<!--删-->
+	<delete id="delete" parameterType="String">
+		delete from t_voice where id=#{id}
+	</delete>
+	<!--改-->
+	<update id="update" parameterType="com.baizhi.entity.Voice">
+		update t_voice set title=#{title} where id=#{id}
+	</update>
+
+	<!--根据外键查所有-->
+	<select id="selectByIntroductionId" parameterType="String" resultType="com.baizhi.entity.Voice">
+		select id,title,downloadUrl,size,duration,introductionId FROM t_voice where introductionId=#{introduce.id}
+	</select>
+
+	<resultMap id="VoiceMap" type="com.baizhi.entity.Voice">
+		<id column="vid" property="id"/>
+		<id column="vtitle" property="title"/>
+		<id column="downloadUrl" property="downloadUrl"/>
+		<id column="size" property="size"/>
+		<id column="duration" property="duration"/>
+		<association property="introduce" column="introductionId"
+					 javaType="com.baizhi.entity.Introduce">
+			<id column="iid" property="id"/>
+			<result column="photoPath" property="photoPath"/>
+			<result column="ititle" property="title"/>
+			<result column="score" property="score"/>
+			<result column="author" property="author"/>
+			<result column="broadcast" property="broadcast"/>
+			<result column="setCount" property="setCount"/>
+			<result column="brief" property="brief"/>
+			<result column="createDate" property="createDate"/>
+		</association>
+	</resultMap>
+	<!--根据id差一个-->
+	<select id="selectById" parameterType="String" resultMap="VoiceMap">
+		select v.id vid , v.title vtitle ,v.downloadUrl,v.size,v.duration,v.introductionId,
+		i.id iid,i.photoPath,i.title ititle,i.score,i.author,i.broadcast,i.setCount,i.brief,i.createDate
+		from t_introduce i
+		join t_voice v on v.introductionId=i.id
+		where v.id=#{id}
+	</select>
+
+	<select id="selectAll" resultMap="VoiceMap">
+		select v.id vid , v.title vtitle,v.downloadUrl,v.size,v.duration,v.introductionId,
+		i.id iid,i.photoPath,i.title ititle,i.score,i.author,i.broadcast,i.setCount,i.brief,i.createDate
+		from t_introduce i
+		join t_voice v on v.introductionId=i.id
+	</select>
+
+</mapper>

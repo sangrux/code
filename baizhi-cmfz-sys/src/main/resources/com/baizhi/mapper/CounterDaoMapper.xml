@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.CounterDao">
+    <!--添加计时器-->
+    <insert id="insert" parameterType="Counter">
+        INSERT INTO t_counter VALUES (#{id},#{name},#{count},#{createTime},#{lesson.id})
+    </insert>
+    <!--根据功课id删除-->
+    <delete id="deleteByLessonId" parameterType="String">
+        DELETE FROM t_counter WHERE lessonId=#{lessonId}
+    </delete>
+    <sql id="sel">
+        SELECT  id,name,count,createTime,lessonId FROM  t_counter
+    </sql>
+    <!--根据功课id查询-->
+    <select id="selectByLessonId" parameterType="String" resultType="Counter">
+        <include refid="sel"/> WHERE lessonId=#{lessonId}
+    </select>
+
+    <!--查询所有的计时器-->
+    <select id="selectAll" resultType="Counter">
+        <include refid="sel"/>
+    </select>
+
+</mapper>

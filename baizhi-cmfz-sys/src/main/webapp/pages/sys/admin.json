@@ -1,0 +1,17 @@
+{
+  "rows": [
+    {
+      "id": "12123",
+      "name": "麻烦",
+      "password": "123456",
+      "type":"root"
+    },
+    {
+      "id": "12123",
+      "name": "麻烦",
+      "password": "123456",
+      "type":"normal"
+    }
+  ],
+  "total": 2
+}

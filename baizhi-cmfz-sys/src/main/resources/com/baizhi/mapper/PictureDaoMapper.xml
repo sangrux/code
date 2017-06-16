@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.PictureDao">
+
+
+	<!--查询一个-->
+	<select id="selectById" parameterType="String" resultType="picture">
+		select id,picturePath,createDate,description from t_pictureround where id=#{id}
+	</select>
+
+	<!--查询所有-->
+	<select id="selectAll" resultType="picture">
+		select id,picturePath,createDate,description from t_pictureround
+	</select>
+
+	<!--添加-->
+	<insert id="insert" parameterType="picture">
+		insert into t_pictureround values(#{id},#{picturePath},#{createDate},#{description})
+	</insert>
+
+	<!--删除-->
+	<delete id="delete" parameterType="String">
+		delete from t_pictureround where id=#{id}
+	</delete>
+
+	<!--修改-->
+	<update id="update" parameterType="picture">
+		update t_pictureround set picturePath=#{picturePath},createDate=#{createDate},description=#{description} where id=#{id}
+	</update>
+
+
+</mapper>

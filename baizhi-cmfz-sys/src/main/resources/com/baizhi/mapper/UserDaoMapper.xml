@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+
+	<resultMap  id="userMap" type="user">
+		<id column="uid" property="id"/>
+		<result column="salt" property="salt"/>
+		<result column="password" property="password"/>
+		<result column="photoPath" property="photoPath"/>
+		<result column="farmington" property="farmington"/>
+		<result column="nickname" property="nickname"/>
+		<result column="sex" property="sex"/>
+		<result column="province" property="province"/>
+		<result column="city" property="city"/>
+		<result column="location" property="location"/>
+		<result column="description" property="description"/>
+		<result column="phone" property="phone"/>
+		<association property="guru" javaType="guru" select="com.baizhi.dao.GuruDao.selectById" column="guruId"/>
+	</resultMap>
+
+	<!--查询一个-->
+	<select id="selectById" parameterType="String" resultType="user">
+		select id,salt,password,photoPath,farmington,nickname,sex,province,city,location,description,phone from t_user where id=#{id}
+	</select>
+
+	<!--查询所有-->
+	<select id="selectAll" resultMap="userMap">
+		select id uid,salt,password,photoPath,farmington,nickname,sex,province,city,location,description,phone,guruId from t_user
+	</select>
+
+	<!--添加-->
+	<insert id="insert" parameterType="user">
+		insert into t_user values(#{id},#{salt},#{password},#{photoPath},#{farmington},#{nickname},#{sex},#{province},#{city},#{location},#{description},#{phone},#{guru.id})
+	</insert>
+
+	<!--删除-->
+	<delete id="delete" parameterType="String">
+		delete from t_user where id=#{id}
+	</delete>
+
+	<!--修改-->
+	<update id="update" parameterType="user">
+		update t_user set salt=#{salt},password=#{password},photoPath=#{photoPath},farmington=#{farmington},nickname=#{nickname},sex=#{sex},province=#{province},city=#{city},location=#{location},description=#{description},phone=#{phone},guruID=#{guru.id} where id=#{id}
+	</update>
+
+
+</mapper>

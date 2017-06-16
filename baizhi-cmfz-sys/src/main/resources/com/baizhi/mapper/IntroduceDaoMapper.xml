@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.IntroduceDao">
+	<!--增-->
+	<insert id="insert" parameterType="com.baizhi.entity.Introduce">
+		insert into t_introduce values
+		(#{id},#{photoPath},#{title},#{score},#{author},
+			#{broadcast},#{setCount},#{brief},#{createDate})
+</insert>
+	<!--删-->
+	<delete id="delete" parameterType="String">
+		delete from t_introduce where id=#{id}
+	</delete>
+	<!--改-->
+	<update id="update" parameterType="com.baizhi.entity.Introduce">
+		update t_introduce set photoPath=#{photoPath},title=#{title},
+			score=#{score},author=#{author},broadcast=#{broadcast},setCount=#{setCount},
+			brief=#{brief},createDate=#{createDate} where id=#{id}
+	</update>
+
+
+	<resultMap id="IntroduceMap" type="com.baizhi.entity.Introduce">
+		<id column="id" property="id"/>
+		<result column="photoPath" property="photoPath"/>
+		<result column="title" property="title"/>
+		<result column="score" property="score"/>
+		<result column="author" property="author"/>
+		<result column="broadcast" property="broadcast"/>
+		<result column="setCount" property="setCount"/>
+		<result column="brief" property="brief"/>
+		<result column="createDate" property="createDate"/>
+		<collection property="voices" javaType="java.util.List" ofType="com.baizhi.entity.Voice"
+					select="com.baizhi.dao.VoiceDao.selectByIntroductionId" column="id"/>
+	</resultMap>
+	<!--根据id查专辑下的所有妙音章节-->
+	<select id="selectById" parameterType="String" resultMap="IntroduceMap">
+		select id,photoPath,title,score,author,broadcast,setCount,brief,createDate from t_introduce where id=#{id}
+	</select>
+
+
+	<!--查所有-->
+	<select id="selectAll" resultMap="IntroduceMap">
+		select id,photoPath,title,score,author,broadcast,setCount,brief,createDate from t_introduce
+	</select>
+
+</mapper>
